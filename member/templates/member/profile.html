@@ -1,0 +1,70 @@
+{% extends "blog/base.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<style>
+    .card-header {
+        background-color: #CEE6F3;
+        color: #fff;
+        text-align: center;
+    }
+
+    .card-body {
+        background-color: #F8F9FA;
+    }
+
+    .profile-info {
+        border-bottom: 1px solid #dee2e6;
+        padding: 10px;
+    }
+
+    .profile-info h5 {
+        color: #EF6262;
+    }
+
+    .profile-info p {
+        color: #6C757D;
+    }
+
+    .profile-form {
+        margin-top: 20px;
+    }
+
+    .profile-form button {
+        background-color: #007BFF;
+        border: none;
+    }
+
+    .profile-form button:hover {
+        background-color: #64B5F6;
+    }
+</style>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="mb-0">{{ user.username }}</h2>
+                    <p class="text-secondary mb-0">{{ user.email }}</p>
+                </div>
+                <div class="card-body">
+                    <div class="media profile-info">
+                        <div class="media-body">
+                            <h5 class="mt-0">Profile Information</h5>
+                            <p class="mb-1"><b>BMI:</b> {{ bmi }}</p>
+                            <p class="mb-1"><b>BMI Category:</b> {{ bmi_category }}</p>
+                        </div>
+                    </div>
+                    <hr>
+                    <form method="POST" class="profile-form">
+                        {% csrf_token %}
+                        {{ form|crispy }}
+                        <button type="submit" class="btn btn-primary">Update Profile</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

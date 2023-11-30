@@ -1,0 +1,40 @@
+{% extends "blog/base.html" %}
+
+{% block content %}
+<div class="container">
+  <h2 style="color: #EF6262;">Exercise Log</h2>
+  <a href="{% url 'add_exercise' %}" class="btn btn-outline-primary" style="margin: 1rem;  margin-left: 0;">+ Exercise</a>
+  {% if exercise_entries %}
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>Activity</th>
+          <th>Duration</th>
+          <th>Weight</th>
+          <th>Burned Calories</th>
+          <th>Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for exercise_entry in exercise_entries %}
+          <tr>
+            <td>{{ exercise_entry.exercise }}</td>
+            <td>{{ exercise_entry.duration }}</td>
+            <td>{{ exercise_entry.weight }}</td>
+            <td>{{ exercise_entry.burned_calories }}</td>
+            <td>{{ exercise_entry.daily_log.date}}</td>
+            <td>
+              <form method="post" action="{% url 'delete_exercise_entry' exercise_entry.id %}" onsubmit="return confirm('Are you sure you want to delete this exercise entry?');">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-sm btn-outline-danger py-0" style="font-size: 0.8em;">x</button>
+              </form>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p>No exercise entries found.</p>
+  {% endif %}
+</div>
+{% endblock %}

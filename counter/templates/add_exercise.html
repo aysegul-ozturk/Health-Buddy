@@ -1,0 +1,47 @@
+{% extends "blog/base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container">
+  <h2 style="color: #EF6262;">Add Exercise</h2>
+    {% if error %}
+    <div class="alert alert-danger mt-4">
+      {{ error }}
+    </div>
+  {% endif %}
+  <form method="POST">
+    {% csrf_token %}
+    <div class="form-group">
+      <label for="activity">Exercise:</label>
+      <select class="form-control" id="activity" name="activity" required>
+        <option value="">Select an exercise</option>
+        <option value="aerobics">Aerobics</option>
+        <option value="cycling">Cycling</option>
+        <option value="skiing">Skiing</option>
+        <option value="weightlifting">Weight lifting</option>
+        <option value="ballroomdancing">Ballroom dancing</option>
+        <!-- Add more exercise options -->
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="duration">Duration (in minutes):</label>
+      <input type="number" class="form-control" id="duration" name="duration" min="1" required>
+    </div>
+    <div class="form-group">
+              <div class="form-group">
+                <label for="id_date">Date:</label>
+                <input class="form-control datepicker" id="id_date" name="date" autocomplete="off">
+              </div>
+            </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+
+
+  {% if burned_calories %}
+    <div class="mt-4">
+      <h4>Calories Burned:</h4>
+      <p>{{ burned_calories }} calories</p>
+    </div>
+  {% endif %}
+</div>
+{% endblock %}

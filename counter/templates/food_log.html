@@ -1,0 +1,51 @@
+{% extends "blog/base.html" %}
+{% load mathfilters%}
+
+{% block content %}
+<div class="container">
+  <h2 style="color: #EF6262;">Food Log Diary</h2>
+  <a href="{% url 'add_food' %}" class="btn btn-outline-primary" style="margin: 1rem;  margin-left: 0;">+ Food</a>
+  {% if food_entries %}
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Description</th>
+          <th>Calories</th>
+          <th>Date Consumed</th>
+          <th>Quantity</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for food_entry in food_entries %}
+          <tr>
+            <td>{{ food_entry.food.name }}</td>
+            <td>{{ food_entry.description | safe}}</td>
+            <td>{{ food_entry.food.calories | div:100|mul:food_entry.quantity|floatformat:2 }}</td>
+            <td>{{ food_entry.daily_log.date}}</td>
+            <td>{{ food_entry.quantity}}</td>
+            <td>
+
+
+              <div class="row">
+                    <div class="col-md-2">
+                            <form method="post" action="{% url 'delete_food_entry' food_entry.id %}" onsubmit="return confirm('Are you sure you want to delete this food entry?');">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-sm btn-outline-danger py-0" style="font-size: 0.8em;">x</button>
+              </form>
+                    </div>
+                    <div class="col-md-10">
+                    <a href="{% url 'update_food_entry' food_entry.id %}" class="btn btn-sm btn-outline-primary py-0" style="font-size: 0.8em;">Edit</a>
+                    </div>
+                </div>
+            </td>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p>No food entries found.</p>
+  {% endif %}
+</div>
+{% endblock %}
